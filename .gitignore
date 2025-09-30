@@ -1,0 +1,13 @@
+# IDE stuff
+.idea
+
+# Python stuff
+__pycache__
+.venv/
+.ruff_cache/
+
+# Environment variables must not be commited !
+.env
+
+# runtime data
+/data

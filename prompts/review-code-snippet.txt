@@ -1,0 +1,13 @@
+Please review this code snippet and provide feedback or suggestions for improvements or potential security issues!
+Use english language for your reply!
+
+Focus on the following areas ( if not empty )!
+<FOCUS_AREA>{{focus_area | text:placeholder="Any specific aspect to focus on? (optional)"}}</FOCUS_AREA>
+
+Include key quotes from the code snippet!
+
+<CODE_SNIPPET>
+```
+{{code_snippet | textarea:placeholder="Paste the code snippet here...":required}}
+```
+</CODE_SNIPPET>

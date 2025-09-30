@@ -1,0 +1,86 @@
+use_default_settings: true
+
+server:
+  # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: "ultrasecretkey"   # change this!
+
+general:
+  # Debug mode, only for development. Is overwritten by ${SEARXNG_DEBUG}
+  debug: true
+  # displayed name
+  instance_name: "searxng"
+
+search:
+  # Filter results. 0: None, 1: Moderate, 2: Strict
+  safe_search: 0
+  # remove format to deny access, use lower case.
+  # formats: [html, csv, json, rss]
+  formats:
+    - html
+    - json # This is needed for "Open WebUI" when using SearXNG !
+
+ui:
+  # infinite_scroll: When true, automatically loads the next page when scrolling to bottom of the current page.
+  infinite_scroll: true
+  # ui theme
+  default_theme: simple
+  # center the results ?
+  center_alignment: true
+
+categories_as_tabs:
+  general:
+  images:
+  videos:
+  news:
+  map:
+  music:
+  it:
+  science:
+  #files:
+  #social media:
+
+engines:
+  - name: reddit
+    disabled: false
+  - name: imdb
+    disabled: false
+  - name: tmdb
+    disabled: false
+  - name: rottentomatoes
+    disabled: false
+  - name: moviepilot
+    disabled: false
+  - name: geizhals
+    disabled: false
+  - name: goodreads
+    disabled: false
+  - name: npm
+    disabled: false
+  - name: crates.io
+    disabled: false
+  - name: huggingface
+    disabled: false
+  - name: huggingface datasets
+    disabled: false
+  - name: huggingface spaces
+    disabled: false
+  - name: ollama
+    disabled: false
+  - name: searchcode code
+    disabled: false
+  - name: discuss.python
+    disabled: false
+  - name: tagesschau
+    disabled: false
+  - name: mediathekviewweb
+    disabled: false
+  - name: pkg.go.dev
+    disabled: false
+  - name: qwant
+    disabled: true
+  - name: qwant news
+    disabled: true
+  - name: qwant images
+    disabled: true
+  - name: qwant videos
+    disabled: true

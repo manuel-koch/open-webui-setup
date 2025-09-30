@@ -1,0 +1,62 @@
+# Env Variables:
+#
+# OPEN_WEBUI_PORT
+# OPEN_WEBUI_BASE_URL
+# OPEN_WEBUI_SECRET_KEY
+# SEARCHXNG_PORT
+# SEARXNG_BASE_URL
+# SEARXNG_SECRET
+# TIKA_PORT
+#
+
+services:
+
+  open-webui:
+    restart: unless-stopped
+    image: ghcr.io/open-webui/open-webui:main
+    depends_on:
+    - searxng
+    - tika
+    environment:
+      WEBUI_URL: ${OPEN_WEBUI_BASE_URL}
+      WEBUI_SECRET_KEY: ${OPEN_WEBUI_SECRET_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-L", "http://localhost:8080/health"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./data/open-webui:/app/backend/data
+    ports:
+      - ${OPEN_WEBUI_PORT}:8080
+
+  searxng:
+    restart: unless-stopped
+    image: searxng/searxng
+    environment:
+      INSTANCE_NAME: searxng
+      BASE_URL: ${SEARXNG_BASE_URL}  
+      SEARXNG_SECRET: ${SEARXNG_SECRET}
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "http://localhost:8080/healthz"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./etc/searxng:/etc/searxng
+    ports:
+      - ${SEARCHXNG_PORT}:8080
+
+  tika:
+    restart: unless-stopped
+    image: apache/tika:3.1.0.0-full
+    environment:
+      BASE_URL: http://localhost:${SEARCHXNG_PORT}/  
+      INSTANCE_NAME: searxng
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "http://localhost:9998/"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./data/searxng:/etc/searxng
+    ports:
+      - ${TIKA_PORT}:9998
+

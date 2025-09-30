@@ -1,0 +1,14 @@
+Please summarize the following article!
+Use the same language as used in the article!
+
+Create a {{summary_length | select:options=["Brief (3 bullets)","Detailed (5 bullets)","Lengthy (10 bullets)","Executive"]:default="Brief (3 bullets)"}} summary!
+
+Focus on the following areas ( if not empty )!
+<FOCUS_AREA>{{focus_area | text:placeholder="Any specific aspect to focus on? (optional)"}}</FOCUS_AREA>
+
+Include key quotes from the article ( if enabled )!
+<INCLUDE_KEY_QUOTES>{{include_quotes | checkbox}}</INCLUDE_KEY_QUOTES>
+
+<ARTICLE>
+{{article_text | textarea:placeholder="Paste the full text of the article here...":required}}
+</ARTICLE>
