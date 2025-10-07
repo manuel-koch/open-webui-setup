@@ -3,23 +3,27 @@
 # OPEN_WEBUI_PORT
 # OPEN_WEBUI_BASE_URL
 # OPEN_WEBUI_SECRET_KEY
-# SEARCHXNG_PORT
+# SEARXNG_PORT
 # SEARXNG_BASE_URL
 # SEARXNG_SECRET
 # TIKA_PORT
-#
+# USER_MODEL_METRICS_WEBHOOK_PORT
+# OLLAMA_REPLICAS
+# OLLAMA_VERSION
+# OLLAMA_PORT
 
 services:
 
   open-webui:
     restart: unless-stopped
+    container_name: open-webui
     image: ghcr.io/open-webui/open-webui:main
     depends_on:
     - searxng
     - tika
     environment:
-      WEBUI_URL: ${OPEN_WEBUI_BASE_URL}
-      WEBUI_SECRET_KEY: ${OPEN_WEBUI_SECRET_KEY}
+      WEBUI_URL: ${OPEN_WEBUI_BASE_URL:-http://localhost:${OPEN_WEBUI_PORT:-20080}/}
+      WEBUI_SECRET_KEY: ${OPEN_WEBUI_SECRET_KEY:?Missing open webui secret}
     healthcheck:
       test: ["CMD", "curl", "-L", "http://localhost:8080/health"]
       timeout: 10s
@@ -27,36 +31,68 @@ services:
     volumes:
       - ./data/open-webui:/app/backend/data
     ports:
-      - ${OPEN_WEBUI_PORT}:8080
+      - ${OPEN_WEBUI_PORT:-20080}:8080
 
   searxng:
     restart: unless-stopped
+    container_name: searxng
     image: searxng/searxng
     environment:
       INSTANCE_NAME: searxng
-      BASE_URL: ${SEARXNG_BASE_URL}  
-      SEARXNG_SECRET: ${SEARXNG_SECRET}
+      BASE_URL: ${SEARXNG_BASE_URL:-http://localhost:${SEARXNG_PORT:-20081}/}
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?Missing searxng secret}
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://localhost:8080/healthz"]
       timeout: 10s
       retries: 10
     volumes:
       - ./etc/searxng:/etc/searxng
+      - ./data/searxng/cache:/var/cache/searxng
     ports:
-      - ${SEARCHXNG_PORT}:8080
+      - ${SEARXNG_PORT:-20081}:8080
 
   tika:
     restart: unless-stopped
+    container_name: tika
     image: apache/tika:3.1.0.0-full
-    environment:
-      BASE_URL: http://localhost:${SEARCHXNG_PORT}/  
-      INSTANCE_NAME: searxng
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://localhost:9998/"]
       timeout: 10s
       retries: 10
-    volumes:
-      - ./data/searxng:/etc/searxng
     ports:
-      - ${TIKA_PORT}:9998
+      - ${TIKA_PORT:-20082}:9998
 
+  ollama:
+    restart: unless-stopped
+    container_name: ollama
+    image: ollama/ollama:${OLLAMA_VERSION:-0.12.3}
+    deploy:
+      replicas: ${OLLAMA_REPLICAS:-0}
+    environment:
+      OLLAMA_HOST: "0.0.0.0:11434"
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "http://localhost:11434/"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./data/ollama:/root/.ollama
+    ports:
+      - ${OLLAMA_PORT:-11434}:11434
+
+  user-model-metrics-webhook:
+    restart: unless-stopped
+    container_name: user-model-metrics-webhook
+    build:
+      context: ./user-model-metrics-webhook
+      dockerfile: ./Dockerfile
+      args:
+        GOLANG_VERSION: 1.25.1
+    image: user-model-metrics-webhook:latest
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "http://localhost/ping"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./data/user-model-metrics-webhook:/app/data
+    ports:
+      - ${USER_MODEL_METRICS_WEBHOOK_PORT:-20083}:80

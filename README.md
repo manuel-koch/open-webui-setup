@@ -6,15 +6,19 @@ A docker-compose configuration that runs
 - [SearXNG - Docs](https://docs.searxng.org/), [SearXNG - Github](https://github.com/searxng/searxng)
 - [Tika - Docs](https://tika.apache.org/), [Tika - Github](https://github.com/apache/tika)
 
-The docker compose configuration requires the following environment variables to be set:
+The docker compose configuration makes use of the following environment variables:
 
 - OPEN_WEBUI_PORT
 - OPEN_WEBUI_BASE_URL
-- OPEN_WEBUI_SECRET_KEY
-- SEARCHXNG_PORT
+- OPEN_WEBUI_SECRET_KEY (required)
+- SEARXNG_PORT
 - SEARXNG_BASE_URL
-- SEARXNG_SECRET
+- SEARXNG_SECRET (required)
 - TIKA_PORT
+- USER_MODEL_METRICS_WEBHOOK_PORT
+- OLLAMA_REPLICAS
+- OLLAMA_VERSION
+- OLLAMA_PORT
 
 ## Open WebUI Hints
 
