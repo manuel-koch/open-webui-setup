@@ -8,6 +8,7 @@
 # SEARXNG_SECRET
 # TIKA_PORT
 # USER_MODEL_METRICS_WEBHOOK_PORT
+# USER_MODEL_METRICS_WEBHOOK_API_KEY
 # OLLAMA_REPLICAS
 # OLLAMA_VERSION
 # OLLAMA_PORT
@@ -88,6 +89,8 @@ services:
       args:
         GOLANG_VERSION: 1.25.1
     image: user-model-metrics-webhook:latest
+    environment:
+      WEBHOOK_API_KEY: "${USER_MODEL_METRICS_WEBHOOK_API_KEY:-}"
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://localhost/ping"]
       timeout: 10s
