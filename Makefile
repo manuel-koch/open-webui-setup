@@ -19,21 +19,24 @@ open-webui-restart:: create-data-dirs
 	docker compose stop open-webui
 	docker compose start open-webui
 
-open-webui-update::
+open-webui-update:: create-data-dirs
+	docker compose stop open-webui
 	docker compose pull open-webui
-
+	
 searxng-restart:: create-data-dirs
 	docker compose stop searxng
 	docker compose start searxng
 
-searxng-update::
+searxng-update:: create-data-dirs
+	docker compose stop searxng
 	docker compose pull searxng
 
 tika-restart:: create-data-dirs
 	docker compose stop tika
 	docker compose start tika
 
-tika-update::
+tika-update:: create-data-dirs
+	docker compose stop tika
 	docker compose pull tika	
 
 user-model-metrics-webhook-restart:: create-data-dirs
