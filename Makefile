@@ -16,32 +16,32 @@ shutdown::
 	docker compose down
 
 open-webui-restart:: create-data-dirs
-	docker compose stop open-webui
-	docker compose start open-webui
+	docker rm -f open-webui
+	docker compose up -d open-webui
 
 open-webui-update:: create-data-dirs
-	docker compose stop open-webui
+	docker rm -f open-webui
 	docker compose pull open-webui
-	
+
 searxng-restart:: create-data-dirs
-	docker compose stop searxng
-	docker compose start searxng
+	docker rm -f searxng
+	docker compose up -d searxng
 
 searxng-update:: create-data-dirs
-	docker compose stop searxng
+	docker rm -f searxng
 	docker compose pull searxng
 
 tika-restart:: create-data-dirs
-	docker compose stop tika
-	docker compose start tika
+	docker rm -f tika
+	docker compose up -d tika
 
 tika-update:: create-data-dirs
-	docker compose stop tika
+	docker rm -f tika
 	docker compose pull tika	
 
 user-model-metrics-webhook-restart:: create-data-dirs
-	docker compose stop user-model-metrics-webhook
-	docker compose start user-model-metrics-webhook
+	docker rm -f user-model-metrics-webhook
+	docker compose up -d user-model-metrics-webhook
 
 user-model-metrics-webhook-build::
 	docker compose build user-model-metrics-webhook
