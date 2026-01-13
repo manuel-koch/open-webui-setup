@@ -55,7 +55,7 @@ services:
   tika:
     restart: unless-stopped
     container_name: tika
-    image: apache/tika:3.1.0.0-full
+    image: apache/tika:3.2.3.0-full
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://localhost:9998/"]
       timeout: 10s
