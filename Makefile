@@ -39,6 +39,17 @@ tika-update:: create-data-dirs
 	docker rm -f tika
 	docker compose pull tika	
 
+ollama-restart:: create-data-dirs
+	docker rm -f ollama
+	docker compose up -d ollama
+
+ollama-update:: create-data-dirs
+	docker rm -f ollama
+	docker compose pull ollama
+
+ollama-update-models::
+	docker compose exec ollama sh -c 'ollama ls | tail -n +2 | cut -d" " -f1 | xargs --verbose -n 1 ollama pull'
+	
 user-model-metrics-webhook-restart:: create-data-dirs
 	docker rm -f user-model-metrics-webhook
 	docker compose up -d user-model-metrics-webhook
