@@ -16,9 +16,19 @@ The docker compose configuration makes use of the following environment variable
 - SEARXNG_SECRET (required)
 - TIKA_PORT
 - USER_MODEL_METRICS_WEBHOOK_PORT
-- OLLAMA_REPLICAS
 - OLLAMA_VERSION
 - OLLAMA_PORT
+
+## Disable ollama container
+
+Use the following `docker-compose.override.yaml` snippet to not use any ollama container.
+
+```yaml
+services:
+  ollama:
+    # Require an activated profile, to force not using the ollama container and image
+    profiles: ["ollama"]  
+```
 
 ## Open WebUI Hints
 

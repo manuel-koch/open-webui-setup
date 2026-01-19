@@ -9,7 +9,6 @@
 # TIKA_PORT
 # USER_MODEL_METRICS_WEBHOOK_PORT
 # USER_MODEL_METRICS_WEBHOOK_API_KEY
-# OLLAMA_REPLICAS
 # OLLAMA_VERSION
 # OLLAMA_PORT
 
@@ -67,8 +66,6 @@ services:
     restart: unless-stopped
     container_name: ollama
     image: ollama/ollama:${OLLAMA_VERSION:-0.13.5}
-    deploy:
-      replicas: ${OLLAMA_REPLICAS:-0}
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
     healthcheck:
