@@ -65,7 +65,7 @@ services:
   ollama:
     restart: unless-stopped
     container_name: ollama
-    image: ollama/ollama:${OLLAMA_VERSION:-0.13.5}
+    image: ollama/ollama:${OLLAMA_VERSION:-0.14.2}
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
     healthcheck:
