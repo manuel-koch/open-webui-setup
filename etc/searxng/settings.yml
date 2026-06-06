@@ -3,12 +3,16 @@ use_default_settings: true
 server:
   # Is overwritten by ${SEARXNG_SECRET}
   secret_key: "ultrasecretkey"   # change this!
+  limiter: true
+
+valkey:
+  url: valkey://valkey:6379/0
 
 general:
   # Debug mode, only for development. Is overwritten by ${SEARXNG_DEBUG}
   debug: true
   # displayed name
-  instance_name: "searxng"
+  instance_name: "SearXNG"
 
 search:
   # Filter results. 0: None, 1: Moderate, 2: Strict

@@ -1,7 +1,7 @@
 data/%:
 	mkdir -p $@
 
-create-data-dirs:: data/searxng/cache data/ollama data/open-webui data/tika data/user-model-metrics-webhook
+create-data-dirs:: data/searxng/cache data/ollama data/open-webui data/tika data/user-model-metrics-webhook data/valkey
 
 start:: create-data-dirs
 	docker compose $(foreach P,${ENABLED_PROFILES},--profile $P) up  -d

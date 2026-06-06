@@ -15,7 +15,6 @@
 # OLLAMA_PORT
 
 services:
-
   open-webui:
     restart: unless-stopped
     container_name: open-webui
@@ -100,3 +99,18 @@ services:
       - ./data/user-model-metrics-webhook:/app/data
     ports:
       - ${USER_MODEL_METRICS_WEBHOOK_PORT:-20083}:80
+
+  valkey:
+    restart: unless-stopped
+    container_name: valkey
+    image: valkey/valkey:9.0.3-alpine3.23
+    profiles: [valkey, searxng]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - ./data/valkey/:/data
+      - ./etc/valkey/valkey.conf:/etc/valkey/valkey.conf # see https://valkey.io/topics/valkey.conf/
+
