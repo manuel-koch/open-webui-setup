@@ -4,15 +4,15 @@ data/%:
 create-data-dirs:: data/searxng/cache data/ollama data/open-webui data/tika data/user-model-metrics-webhook
 
 start:: create-data-dirs
-	docker compose up -d
+	docker compose $(foreach P,${ENABLED_PROFILES},--profile $P) up  -d
 
 start-foreground:: create-data-dirs
-	docker compose up
+	docker compose $(foreach P,${ENABLED_PROFILES},--profile $P) up
 
 logs::
 	docker compose logs -f --tail=500
 
-shutdown::
+stop::
 	docker compose down
 
 open-webui-restart:: create-data-dirs
